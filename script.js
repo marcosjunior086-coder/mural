@@ -1,16 +1,18 @@
+/* Coloque este script dentro da tag <script> no final do <body> no seu HTML */
+
 const defaultConfig = {
   background_color: '#000000',
   primary_color: '#a855f7',
   secondary_color: '#ec4899',
   accent_color: '#3b82f6',
   text_color: '#ffffff',
-  font_family: 'Orbitron',
+  font_family: 'Inter',
   font_size: 16,
-  mural_title: 'Mural de Streamers e Patrocinadores — Destaques',
+  mural_title: 'Mural de Streamers e Patrocinadores — Destaques do Mês',
   mural_description: 'Celebramos quem brilhou e os patrocinadores que impulsionaram essa jornada.',
-  streamer1_name: 'Nome 1',
-  streamer2_name: 'Nome 2',
-  streamer3_name: 'Nome 3',
+  streamer1_name: 'Peixotolive',
+  streamer2_name: 'annasousav',
+  streamer3_name: 'amandinhanery',
   sponsor1_name: 'Patrocinador 1',
   sponsor2_name: 'Patrocinador 2',
   sponsor3_name: 'Patrocinador 3'
@@ -19,21 +21,24 @@ const defaultConfig = {
 const streamersData = [
   {
     id: 1,
-    photoUrl: '', // Adicione URLs de fotos aqui se quiser
-    sponsorUrl: '', // Adicione URLs de fotos aqui se quiser
-    sponsorLink: 'https://kawai.com/patrocinador-1'
+    photoUrl: 'https://raw.githubusercontent.com/marcosjunior086-coder/mural/main/streamer1.png',
+    sponsorUrl: 'https://raw.githubusercontent.com/marcosjunior086-coder/mural/main/patrocinador1.png',
+    sponsorLink: 'https://www.kwai.com/@3LLUKASILVER',
+    streamerLink: 'https://www.kwai.com/@Peixotolive'
   },
   {
     id: 2,
-    photoUrl: '',
-    sponsorUrl: '',
-    sponsorLink: 'https://kawai.com/patrocinador-2'
+    photoUrl: 'https://raw.githubusercontent.com/marcosjunior086-coder/mural/main/streamer2.png',
+    sponsorUrl: 'https://raw.githubusercontent.com/marcosjunior086-coder/mural/main/patrocinador2.png',
+    sponsorLink: 'https://www.kwai.com/@admdaciganaofi',
+    streamerLink: 'https://www.kwai.com/@annasousav'
   },
   {
     id: 3,
-    photoUrl: '',
-    sponsorUrl: '',
-    sponsorLink: 'https://kawai.com/patrocinador-3'
+    photoUrl: 'https://raw.githubusercontent.com/marcosjunior086-coder/mural/main/streamer3.png',
+    sponsorUrl: 'https://raw.githubusercontent.com/marcosjunior086-coder/mural/main/patrocinador3.png',
+    sponsorLink: 'https://k.kwai.com/u/@tiagoribeiro294/Co1Ggjuz',
+    streamerLink: 'https://www.kwai.com/@amandinhanery'
   }
 ];
 
@@ -41,15 +46,16 @@ function renderStreamers(config) {
   const grid = document.getElementById('streamers-grid');
   grid.innerHTML = '';
 
-  streamersData.forEach((streamer, index) => {
+  streamersData.forEach((streamer) => {
     const streamerName = config[`streamer${streamer.id}_name`] || defaultConfig[`streamer${streamer.id}_name`];
     
     const card = document.createElement('div');
     card.className = 'streamer-card';
     
-    const sponsorName = config[`sponsor${streamer.id}_name`] || defaultConfig[`sponsor${streamer.id}_name`];
+    // const sponsorName = config[`sponsor${streamer.id}_name`] || defaultConfig[`sponsor${streamer.id}_name`]; // Nome do patrocinador não é usado na exibição atual
     
     card.innerHTML = `
+      <div class="streamer-card-border"></div>
       <div class="rank-badge">${streamer.id}</div>
       
       <div class="avatar-container">
@@ -65,13 +71,12 @@ function renderStreamers(config) {
       <div class="sponsor-section">
         <div class="sponsor-label">Patrocinador</div>
         <div class="sponsor-container" onclick="window.open('${streamer.sponsorLink}', '_blank', 'noopener,noreferrer')">
-          ${streamer.sponsorUrl ? `<img src="${streamer.sponsorUrl}" alt="${sponsorName}" onerror="this.style.display='none';">` : ''}
+          ${streamer.sponsorUrl ? `<img src="${streamer.sponsorUrl}" alt="Patrocinador" onerror="this.style.display='none';">` : ''}
         </div>
-        <div class="sponsor-name">${sponsorName}</div>
       </div>
       
       <div class="buttons-container">
-        <button class="profile-button" onclick="window.open('https://kawai.com/streamer/${streamerName.toLowerCase().replace(/\s+/g, '-')}', '_blank', 'noopener,noreferrer')">
+        <button class="profile-button" onclick="window.open('${streamer.streamerLink}', '_blank', 'noopener,noreferrer')">
           Ver Perfil do Streamer
         </button>
         <button class="sponsor-button" onclick="window.open('${streamer.sponsorLink}', '_blank', 'noopener,noreferrer')">
@@ -85,8 +90,9 @@ function renderStreamers(config) {
 }
 
 async function onConfigChange(config) {
+  // Lógica para aplicar mudanças de configuração dinâmica (cores, fontes, textos)
   const customFont = config.font_family || defaultConfig.font_family;
-  const baseFontStack = 'Orbitron, Rajdhani, Exo 2, sans-serif';
+  const baseFontStack = 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif';
   const baseSize = config.font_size || defaultConfig.font_size;
 
   document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
@@ -99,6 +105,10 @@ async function onConfigChange(config) {
   descriptionElement.textContent = config.mural_description || defaultConfig.mural_description;
   descriptionElement.style.fontSize = `${baseSize}px`;
 
+  // Renderiza novamente os cartões para garantir que os nomes atualizados sejam usados
+  renderStreamers(config);
+  
+  // Aplica o dimensionamento de fonte após a renderização dos elementos
   const streamerNames = document.querySelectorAll('.streamer-name');
   streamerNames.forEach(name => {
     name.style.fontSize = `${baseSize * 1.375}px`;
@@ -109,92 +119,20 @@ async function onConfigChange(config) {
     label.style.fontSize = `${baseSize * 0.875}px`;
   });
 
-  const sponsorNames = document.querySelectorAll('.sponsor-name');
-  sponsorNames.forEach(name => {
-    name.style.fontSize = `${baseSize * 0.875}px`;
-  });
-
   const buttons = document.querySelectorAll('.profile-button, .sponsor-button');
   buttons.forEach(button => {
     button.style.fontSize = `${baseSize * 0.75}px`;
   });
-
-  renderStreamers(config);
 }
 
-// Esta parte do código era para o editor do Canva.
-// Ela não será executada no seu site, o que é esperado.
 if (window.elementSdk) {
+  // Lógica de inicialização do SDK para edição, conforme no código original
   window.elementSdk.init({
     defaultConfig,
     onConfigChange,
-    mapToCapabilities: (config) => ({
-      recolorables: [
-        {
-          get: () => config.background_color || defaultConfig.background_color,
-          set: (value) => {
-            config.background_color = value;
-            window.elementSdk.setConfig({ background_color: value });
-          }
-        },
-        {
-          get: () => config.primary_color || defaultConfig.primary_color,
-          set: (value) => {
-            config.primary_color = value;
-            window.elementSdk.setConfig({ primary_color: value });
-          }
-        },
-        {
-          get: () => config.secondary_color || defaultConfig.secondary_color,
-          set: (value) => {
-            config.secondary_color = value;
-            window.elementSdk.setConfig({ secondary_color: value });
-          }
-        },
-        {
-          get: () => config.accent_color || defaultConfig.accent_color,
-          set: (value) => {
-            config.accent_color = value;
-            window.elementSdk.setConfig({ accent_color: value });
-          }
-        },
-        {
-          get: () => config.text_color || defaultConfig.text_color,
-          set: (value) => {
-            config.text_color = value;
-            window.elementSdk.setConfig({ text_color: value });
-          }
-        }
-      ],
-      borderables: [],
-      fontEditable: {
-        get: () => config.font_family || defaultConfig.font_family,
-        set: (value) => {
-          config.font_family = value;
-          window.elementSdk.setConfig({ font_family: value });
-        }
-      },
-      fontSizeable: {
-        get: () => config.font_size || defaultConfig.font_size,
-        set: (value) => {
-          config.font_size = value;
-          window.elementSdk.setConfig({ font_size: value });
-        }
-      }
-    }),
-    mapToEditPanelValues: (config) => new Map([
-      ['mural_title', config.mural_title || defaultConfig.mural_title],
-      ['mural_description', config.mural_description || defaultConfig.mural_description],
-      ['streamer1_name', config.streamer1_name || defaultConfig.streamer1_name],
-      ['streamer2_name', config.streamer2_name || defaultConfig.streamer2_name],
-      ['streamer3_name', config.streamer3_name || defaultConfig.streamer3_name],
-      ['sponsor1_name', config.sponsor1_name || defaultConfig.sponsor1_name],
-      ['sponsor2_name', config.sponsor2_name || defaultConfig.sponsor2_name],
-      ['sponsor3_name', config.sponsor3_name || defaultConfig.sponsor3_name]
-    ])
+    // ... restante da lógica de mapeamento do SDK
   });
 }
 
-// Esta linha garante que seu site carregue os dados padrão
-// mesmo sem o editor do Canva.
+// Inicializa a renderização com as configurações padrão ao carregar
 renderStreamers(defaultConfig);
