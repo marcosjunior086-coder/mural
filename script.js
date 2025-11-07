@@ -6,7 +6,7 @@ const defaultConfig = {
   font_size: 16, // Base size
   
   // Textos e Nomes
-  mural_title: 'Mural de Streamers e Patrocinadores — Destaques do Mês',
+  mural_title: 'Streamers e Patrocinadores Destaques',
   mural_description: 'Aqui celebramos a evolução dos nossos streamers e os patrocinadores que impulsionaram seus resultados. Este espaço destaca talento, parceria e desempenho que marcaram o mês.',
   streamer1_name: 'Peixotolive',
   streamer2_name: 'annasousav',
@@ -103,3 +103,4 @@ function initMural() {
 
 // Inicia o mural quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', initMural);
+
