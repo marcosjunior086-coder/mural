@@ -1,19 +1,17 @@
-/* Coloque este script dentro da tag <script> no final do <body> no seu HTML */
+/* script.js */
 
 const defaultConfig = {
-  background_color: '#000000',
-  primary_color: '#a855f7',
-  secondary_color: '#ec4899',
-  accent_color: '#3b82f6',
-  text_color: '#ffffff',
+  // Configurações de UI (mantidas para referência, mas o CSS controla a maioria)
   font_family: 'Inter',
-  font_size: 16,
+  font_size: 16, // Base size
+  
+  // Textos e Nomes
   mural_title: 'Mural de Streamers e Patrocinadores — Destaques do Mês',
-  mural_description: 'Celebramos quem brilhou e os patrocinadores que impulsionaram essa jornada.',
+  mural_description: 'Aqui celebramos a evolução dos nossos streamers e os patrocinadores que impulsionaram seus resultados. Este espaço destaca talento, parceria e desempenho que marcaram o mês.',
   streamer1_name: 'Peixotolive',
   streamer2_name: 'annasousav',
   streamer3_name: 'amandinhanery',
-  sponsor1_name: 'Patrocinador 1',
+  sponsor1_name: 'Patrocinador 1', // Não usado na renderização, mas mantido para customização
   sponsor2_name: 'Patrocinador 2',
   sponsor3_name: 'Patrocinador 3'
 };
@@ -47,12 +45,11 @@ function renderStreamers(config) {
   grid.innerHTML = '';
 
   streamersData.forEach((streamer) => {
+    // Busca o nome customizado, ou usa o padrão
     const streamerName = config[`streamer${streamer.id}_name`] || defaultConfig[`streamer${streamer.id}_name`];
     
     const card = document.createElement('div');
     card.className = 'streamer-card';
-    
-    // const sponsorName = config[`sponsor${streamer.id}_name`] || defaultConfig[`sponsor${streamer.id}_name`]; // Nome do patrocinador não é usado na exibição atual
     
     card.innerHTML = `
       <div class="streamer-card-border"></div>
@@ -89,50 +86,20 @@ function renderStreamers(config) {
   });
 }
 
-async function onConfigChange(config) {
-  // Lógica para aplicar mudanças de configuração dinâmica (cores, fontes, textos)
-  const customFont = config.font_family || defaultConfig.font_family;
-  const baseFontStack = 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif';
-  const baseSize = config.font_size || defaultConfig.font_size;
-
-  document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
-  
+function updateMuralTexts(config) {
   const titleElement = document.getElementById('mural-title');
   titleElement.textContent = config.mural_title || defaultConfig.mural_title;
-  titleElement.style.fontSize = `${baseSize * 2.625}px`;
   
   const descriptionElement = document.getElementById('mural-description');
   descriptionElement.textContent = config.mural_description || defaultConfig.mural_description;
-  descriptionElement.style.fontSize = `${baseSize}px`;
-
-  // Renderiza novamente os cartões para garantir que os nomes atualizados sejam usados
-  renderStreamers(config);
-  
-  // Aplica o dimensionamento de fonte após a renderização dos elementos
-  const streamerNames = document.querySelectorAll('.streamer-name');
-  streamerNames.forEach(name => {
-    name.style.fontSize = `${baseSize * 1.375}px`;
-  });
-
-  const sponsorLabels = document.querySelectorAll('.sponsor-label');
-  sponsorLabels.forEach(label => {
-    label.style.fontSize = `${baseSize * 0.875}px`;
-  });
-
-  const buttons = document.querySelectorAll('.profile-button, .sponsor-button');
-  buttons.forEach(button => {
-    button.style.fontSize = `${baseSize * 0.75}px`;
-  });
 }
 
-if (window.elementSdk) {
-  // Lógica de inicialização do SDK para edição, conforme no código original
-  window.elementSdk.init({
-    defaultConfig,
-    onConfigChange,
-    // ... restante da lógica de mapeamento do SDK
-  });
+
+// Função de inicialização
+function initMural() {
+    updateMuralTexts(defaultConfig);
+    renderStreamers(defaultConfig);
 }
 
-// Inicializa a renderização com as configurações padrão ao carregar
-renderStreamers(defaultConfig);
+// Inicia o mural quando o DOM estiver completamente carregado
+document.addEventListener('DOMContentLoaded', initMural);
