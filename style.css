@@ -1,4 +1,4 @@
-/* Coloque este CSS dentro da tag <style> no seu HTML */
+/* style.css */
 
 body {
   box-sizing: border-box;
@@ -213,7 +213,7 @@ body {
   right: -10px;
   bottom: -10px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.1); /* Ajustado para ser menos intrusivo no default */
   animation: pulse 2s ease-in-out infinite;
 }
 
