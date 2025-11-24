@@ -43,32 +43,30 @@ const streamersData = [
 
 function renderStreamers(config) {
     const grid = document.getElementById('streamers-grid');
-    if (!grid) return; // Garante que a grid existe
+    if (!grid) return;
     grid.innerHTML = '';
 
-    streamersData.forEach((streamer, index) => {
+    streamersData.forEach((streamer) => {
         const streamerName = config[`streamer${streamer.id}_name`] || defaultConfig[`streamer${streamer.id}_name`];
-        
+
         const card = document.createElement('div');
         card.className = 'streamer-card';
-        
-        // Use a tag img com tratamento de erro
-        const streamerImgTag = streamer.photoUrl 
-            ? `<img src="${streamer.photoUrl}" alt="${streamerName}" onerror="this.style.display='none';">` 
+
+        const streamerImgTag = streamer.photoUrl
+            ? `<img src="${streamer.photoUrl}" alt="${streamerName}" onerror="this.style.display='none';">`
             : '';
-        const sponsorImgTag = streamer.sponsorUrl 
-            ? `<img src="${streamer.sponsorUrl}" alt="Patrocinador" onerror="this.style.display='none';">` 
+
+        const sponsorImgTag = streamer.sponsorUrl
+            ? `<img src="${streamer.sponsorUrl}" alt="Patrocinador" onerror="this.style.display='none';">`
             : '';
-        
+
         card.innerHTML = `
             <div class="streamer-card-border"></div>
             <div class="rank-badge">${streamer.id}</div>
             
             <div class="avatar-container">
                 <div class="avatar-frame rank-${streamer.id}">
-                    <div class="avatar">
-                        ${streamerImgTag}
-                    </div>
+                    <div class="avatar">${streamerImgTag}</div>
                 </div>
                 
                 <div class="sponsor-section">
@@ -90,7 +88,7 @@ function renderStreamers(config) {
                 </button>
             </div>
         `;
-        
+
         grid.appendChild(card);
     });
 }
@@ -115,8 +113,7 @@ async function onConfigChange(config) {
     }
 
     renderStreamers(config);
-    
-    // Atualiza o tamanho da fonte dos nomes e botões após a renderização
+
     const streamerNames = document.querySelectorAll('.streamer-name');
     streamerNames.forEach(name => {
         name.style.fontSize = `${baseSize * 1.375}px`;
@@ -133,65 +130,63 @@ async function onConfigChange(config) {
     });
 }
 
-// Inicialização do SDK e renderização inicial
 if (window.elementSdk) {
     window.elementSdk.init({
         defaultConfig,
         onConfigChange,
         mapToCapabilities: (config) => ({
-             // ... [Mapeamento de Cores e Fontes - Mantido para compatibilidade com a plataforma] ...
-             recolorables: [
+            recolorables: [
                 {
-                  get: () => config.background_color || defaultConfig.background_color,
-                  set: (value) => {
-                    config.background_color = value;
-                    window.elementSdk.setConfig({ background_color: value });
-                  }
+                    get: () => config.background_color || defaultConfig.background_color,
+                    set: (value) => {
+                        config.background_color = value;
+                        window.elementSdk.setConfig({ background_color: value });
+                    }
                 },
                 {
-                  get: () => config.primary_color || defaultConfig.primary_color,
-                  set: (value) => {
-                    config.primary_color = value;
-                    window.elementSdk.setConfig({ primary_color: value });
-                  }
+                    get: () => config.primary_color || defaultConfig.primary_color,
+                    set: (value) => {
+                        config.primary_color = value;
+                        window.elementSdk.setConfig({ primary_color: value });
+                    }
                 },
                 {
-                  get: () => config.secondary_color || defaultConfig.secondary_color,
-                  set: (value) => {
-                    config.secondary_color = value;
-                    window.elementSdk.setConfig({ secondary_color: value });
-                  }
+                    get: () => config.secondary_color || defaultConfig.secondary_color,
+                    set: (value) => {
+                        config.secondary_color = value;
+                        window.elementSdk.setConfig({ secondary_color: value });
+                    }
                 },
                 {
-                  get: () => config.accent_color || defaultConfig.accent_color,
-                  set: (value) => {
-                    config.accent_color = value;
-                    window.elementSdk.setConfig({ accent_color: value });
-                  }
+                    get: () => config.accent_color || defaultConfig.accent_color,
+                    set: (value) => {
+                        config.accent_color = value;
+                        window.elementSdk.setConfig({ accent_color: value });
+                    }
                 },
                 {
-                  get: () => config.text_color || defaultConfig.text_color,
-                  set: (value) => {
-                    config.text_color = value;
-                    window.elementSdk.setConfig({ text_color: value });
-                  }
+                    get: () => config.text_color || defaultConfig.text_color,
+                    set: (value) => {
+                        config.text_color = value;
+                        window.elementSdk.setConfig({ text_color: value });
+                    }
                 }
-              ],
-              borderables: [],
-              fontEditable: {
+            ],
+            borderables: [],
+            fontEditable: {
                 get: () => config.font_family || defaultConfig.font_family,
                 set: (value) => {
-                  config.font_family = value;
-                  window.elementSdk.setConfig({ font_family: value });
+                    config.font_family = value;
+                    window.elementSdk.setConfig({ font_family: value });
                 }
-              },
-              fontSizeable: {
+            },
+            fontSizeable: {
                 get: () => config.font_size || defaultConfig.font_size,
                 set: (value) => {
-                  config.font_size = value;
-                  window.elementSdk.setConfig({ font_size: value });
+                    config.font_size = value;
+                    window.elementSdk.setConfig({ font_size: value });
                 }
-              }
+            }
         }),
         mapToEditPanelValues: (config) => new Map([
             ['mural_title', config.mural_title || defaultConfig.mural_title],
@@ -205,6 +200,5 @@ if (window.elementSdk) {
         ])
     });
 } else {
-    // Renderização para ambiente fora do SDK
     renderStreamers(defaultConfig);
 }
