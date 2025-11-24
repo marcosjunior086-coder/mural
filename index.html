@@ -1,33 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mural de Streamers e Patrocinadores</title>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mural de Streamers</title>
 
-    <link rel="stylesheet" href="styles.css">
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- CSS externo -->
+  <link rel="stylesheet" href="styles.css">
 
-    <style>@view-transition { navigation: auto; }</style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1 class="title" id="mural-title">
-                Mural de Streamers e Patrocinadores 🚀 Destaques do Mês
-            </h1>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body>
+  <div class="container">
+   <div class="header">
+    <h1 class="title">Streamers e Patrocinadores — Destaques do Mês</h1>
+    <p class="description">Aqui celebramos a evolução dos nossos streamers e os patrocinadores que impulsionaram seus resultados. Este espaço destaca talento, parceria e desempenho que marcaram o mês.</p>
+   </div>
 
-            <p class="description" id="mural-description">
-                Aqui celebramos a evolução dos nossos streamers e os patrocinadores que impulsionaram seus resultados.
-                Este espaço destaca talento, parceria e desempenho que marcaram o mês.
-            </p>
-        </div>
+   <div class="streamers-grid" id="streamers-grid"></div>
+  </div>
 
-        <div class="streamers-grid" id="streamers-grid"></div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
+  <!-- JS externo -->
+  <script src="script.js"></script>
+ </body>
 </html>
